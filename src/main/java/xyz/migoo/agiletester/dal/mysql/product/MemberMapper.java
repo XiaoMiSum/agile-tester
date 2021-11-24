@@ -25,10 +25,13 @@
 
 package xyz.migoo.agiletester.dal.mysql.product;
 
-
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import xyz.migoo.agiletester.controller.product.vo.ProductMemberPageReqVo;
 import xyz.migoo.agiletester.dal.objectdata.product.ProductMemberDO;
+import xyz.migoo.framework.common.pojo.PageResult;
 import xyz.migoo.framework.mybatis.core.BaseMapperX;
+import xyz.migoo.framework.mybatis.core.QueryWrapperX;
 
 /**
  * @author xiaomi
@@ -36,4 +39,35 @@ import xyz.migoo.framework.mybatis.core.BaseMapperX;
  */
 @Mapper
 public interface MemberMapper extends BaseMapperX<ProductMemberDO> {
+
+    /**
+     * 插入产品\项目成员，忽略错误
+     *
+     * @param member 产品\项目成员信息
+     * @return 插入数量
+     */
+    @Insert({"<script>" +
+            "insert ignore into (product_id, user_id, username, enabled, deleted, create_time, " +
+            "creator_id, creator_name, update_time, updater_id, updater_name) " +
+            "value (#{productId}, #{userId}, #{username}, #{enabled}, #{deleted}, #{createTime}, " +
+            "#{creatorId}, #{creatorName}, #{updateTime}, #{updaterId}, #{updaterName});" +
+            "</script>"})
+    @Override
+    int insert(ProductMemberDO member);
+
+    /**
+     * 分页查询
+     *
+     * @param reqVo 分页查询信息
+     * @return 分页结果信息
+     */
+    default PageResult<ProductMemberDO> selectPage(ProductMemberPageReqVo reqVo) {
+        return selectPage(reqVo, new QueryWrapperX<ProductMemberDO>()
+                .eqIfPresent("id", reqVo.getId())
+                .eqIfPresent("product_id", reqVo.getProductId())
+                .eqIfPresent("user_id", reqVo.getUserId())
+                .likeIfPresent("username", reqVo.getUsername())
+                .betweenIfPresent("create_time", reqVo.getBeginTime(), reqVo.getEndTime())
+        );
+    }
 }

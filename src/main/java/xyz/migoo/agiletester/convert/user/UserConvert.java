@@ -70,5 +70,11 @@ public interface UserConvert {
      */
     UserDO convert(UserUpdateReqVO reqVO);
 
+    /**
+     * 分页用户信息转换
+     *
+     * @param user 用户表信息
+     * @return 用户展示信息
+     */
     PageResult<UserRespVO> convert(PageResult<UserDO> user);
 }

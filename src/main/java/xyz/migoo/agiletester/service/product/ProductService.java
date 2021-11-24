@@ -25,12 +25,10 @@
 
 package xyz.migoo.agiletester.service.product;
 
-import xyz.migoo.agiletester.controller.product.vo.ProductCreateReqVO;
-import xyz.migoo.agiletester.controller.product.vo.ProductMemberCreateReqVO;
-import xyz.migoo.agiletester.controller.product.vo.ProductPageReqVo;
-import xyz.migoo.agiletester.controller.product.vo.ProductUpdateReqVO;
-
-import java.util.List;
+import xyz.migoo.agiletester.controller.product.vo.*;
+import xyz.migoo.agiletester.dal.objectdata.product.ProductDO;
+import xyz.migoo.agiletester.dal.objectdata.product.ProductMemberDO;
+import xyz.migoo.framework.common.pojo.PageResult;
 
 /**
  * @author xiaomi
@@ -38,18 +36,54 @@ import java.util.List;
  */
 public interface ProductService {
 
-    void createProduct(ProductCreateReqVO reqVO);
+    /**
+     * 创建产品\项目
+     *
+     * @param reqVo 产品\项目信息
+     */
+    void createProduct(ProductCreateReqVO reqVo);
 
-    void updateProduct(ProductUpdateReqVO reqVO);
+    /**
+     * 更新产品\项目
+     *
+     * @param reqVo 产品\项目信息
+     */
+    void updateProduct(ProductUpdateReqVO reqVo);
 
+    /**
+     * 删除产品\项目
+     *
+     * @param id 产品\项目id
+     */
     void deleteProduct(Long id);
 
-    List<?> getProducts(ProductPageReqVo reqVo);
+    /**
+     * 分页获取产品\项目列表
+     *
+     * @param reqVo 分页查询参数
+     * @return 产品\项目列表
+     */
+    PageResult<ProductDO> getProducts(ProductPageReqVo reqVo);
 
-    List<?> getMembers(ProductMemberCreateReqVO reqVO);
+    /**
+     * 分页获取产品\项目成员列表
+     *
+     * @param reqVo 分页查询参数
+     * @return 产品\项目成员列表
+     */
+    PageResult<ProductMemberDO> getMembers(ProductMemberPageReqVo reqVo);
 
-    void addMembers(ProductMemberCreateReqVO reqVO);
+    /**
+     * 添加产品\项目成员
+     *
+     * @param reqVo 新增信息
+     */
+    void addMembers(ProductMemberCreateReqVO reqVo);
 
-
+    /**
+     * 删除产品\项目成员
+     *
+     * @param id 数据id
+     */
     void deleteMembers(Long id);
 }

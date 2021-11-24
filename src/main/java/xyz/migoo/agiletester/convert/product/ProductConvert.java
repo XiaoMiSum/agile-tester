@@ -27,12 +27,10 @@ package xyz.migoo.agiletester.convert.product;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
-import xyz.migoo.agiletester.controller.product.vo.ProductCreateReqVO;
-import xyz.migoo.agiletester.controller.product.vo.ProductRespVO;
-import xyz.migoo.agiletester.controller.product.vo.ProductUpdateReqVO;
+import xyz.migoo.agiletester.controller.product.vo.*;
 import xyz.migoo.agiletester.dal.objectdata.product.ProductDO;
-
-import java.util.List;
+import xyz.migoo.agiletester.dal.objectdata.product.ProductMemberDO;
+import xyz.migoo.framework.common.pojo.PageResult;
 
 /**
  * @author xiaomi
@@ -66,5 +64,21 @@ public interface ProductConvert {
      * @param products 产品表信息
      * @return 产品展示信息
      */
-    List<ProductRespVO> convert(List<ProductDO> products);
+    PageResult<ProductRespVO> convert(PageResult<ProductDO> products);
+
+    /**
+     * ProductMemberCreateReqVO 转换为 ProductMemberCreateReqVO
+     *
+     * @param reqVO 产品\项目成员信息
+     * @return 成员表信息
+     */
+    ProductMemberDO convert(ProductMemberCreateReqVO reqVO);
+
+    /**
+     * ProductMemberDO 转换为 ProductMemberRespVO
+     *
+     * @param products 产品成员表信息
+     * @return 产品成员展示信息
+     */
+    PageResult<ProductMemberRespVO> convert1(PageResult<ProductMemberDO> products);
 }

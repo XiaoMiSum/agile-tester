@@ -27,13 +27,13 @@ package xyz.migoo.agiletester.controller.product;
 
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import xyz.migoo.agiletester.controller.product.vo.ProductCreateReqVO;
-import xyz.migoo.agiletester.controller.product.vo.ProductMemberCreateReqVO;
-import xyz.migoo.agiletester.controller.product.vo.ProductPageReqVo;
-import xyz.migoo.agiletester.controller.product.vo.ProductUpdateReqVO;
+import xyz.migoo.agiletester.controller.product.vo.*;
+import xyz.migoo.agiletester.convert.product.ProductConvert;
+import xyz.migoo.agiletester.service.product.ProductService;
 import xyz.migoo.framework.common.pojo.PageResult;
 import xyz.migoo.framework.common.pojo.Result;
 
+import javax.annotation.Resource;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
@@ -46,45 +46,48 @@ import javax.validation.constraints.NotNull;
 @RequestMapping("/product")
 public class ProductController {
 
-    @PutMapping
-    public Result<?> createProduct(@Valid @RequestBody ProductCreateReqVO reqVO) {
+    @Resource
+    private ProductService productService;
 
+    @PutMapping
+    public Result<?> createProduct(@Valid @RequestBody ProductCreateReqVO reqVo) {
+        productService.createProduct(reqVo);
         return Result.getSuccessful();
     }
 
     @PostMapping
-    public Result<?> updateProduct(@Valid @RequestBody ProductUpdateReqVO reqVO) {
-
+    public Result<?> updateProduct(@Valid @RequestBody ProductUpdateReqVO reqVo) {
+        productService.updateProduct(reqVo);
         return Result.getSuccessful();
     }
 
     @DeleteMapping
     public Result<?> deleteProduct(@NotNull(message = "产品编号不能为空") Long id) {
-
+        productService.deleteProduct(id);
         return Result.getSuccessful();
     }
 
     @GetMapping
     public Result<PageResult<?>> getProducts(ProductPageReqVo reqVo) {
-
-        return Result.getSuccessful();
+        PageResult<ProductRespVO> result = ProductConvert.INSTANCE.convert(productService.getProducts(reqVo));
+        return Result.getSuccessful(result);
     }
 
     @GetMapping("/member")
-    public Result<PageResult<?>> getMembers(@Valid @RequestBody ProductMemberCreateReqVO reqVO) {
-
-        return Result.getSuccessful();
+    public Result<PageResult<?>> getMembers(@Valid @RequestBody ProductMemberPageReqVo reqVo) {
+        PageResult<ProductMemberRespVO> result = ProductConvert.INSTANCE.convert1(productService.getMembers(reqVo));
+        return Result.getSuccessful(result);
     }
 
     @PutMapping("/member")
-    public Result<?> addMembers(@Valid @RequestBody ProductMemberCreateReqVO reqVO) {
-
+    public Result<?> addMembers(@Valid @RequestBody ProductMemberCreateReqVO reqVo) {
+        productService.addMembers(reqVo);
         return Result.getSuccessful();
     }
 
     @DeleteMapping("/member")
     public Result<?> deleteMembers(Long id) {
-
+        productService.deleteMembers(id);
         return Result.getSuccessful();
     }
 }

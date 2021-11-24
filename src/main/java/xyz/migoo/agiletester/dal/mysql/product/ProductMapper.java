@@ -25,10 +25,13 @@
 
 package xyz.migoo.agiletester.dal.mysql.product;
 
-
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.apache.ibatis.annotations.Mapper;
+import xyz.migoo.agiletester.controller.product.vo.ProductPageReqVo;
 import xyz.migoo.agiletester.dal.objectdata.product.ProductDO;
+import xyz.migoo.framework.common.pojo.PageResult;
 import xyz.migoo.framework.mybatis.core.BaseMapperX;
+import xyz.migoo.framework.mybatis.core.QueryWrapperX;
 
 /**
  * @author xiaomi
@@ -36,4 +39,31 @@ import xyz.migoo.framework.mybatis.core.BaseMapperX;
  */
 @Mapper
 public interface ProductMapper extends BaseMapperX<ProductDO> {
+
+    /**
+     * 通过产品名称查找用户信息
+     *
+     * @param name 登录名称
+     * @return 用户表信息
+     */
+    default ProductDO selectByName(String name) {
+        return selectOne(new QueryWrapper<ProductDO>().eq("name", name));
+    }
+
+
+    /**
+     * 分页查询
+     *
+     * @param reqVO 分页查询信息
+     * @return 分页结果信息
+     */
+    default PageResult<ProductDO> selectPage(ProductPageReqVo reqVO) {
+        return selectPage(reqVO, new QueryWrapperX<ProductDO>()
+                .eqIfPresent("id", reqVO.getId())
+                .likeIfPresent("name", reqVO.getName())
+                .eqIfPresent("team_id", reqVO.getTeamId())
+                .eqIfPresent("enable", reqVO.getEnable())
+                .betweenIfPresent("create_time", reqVO.getBeginTime(), reqVO.getEndTime())
+        );
+    }
 }
