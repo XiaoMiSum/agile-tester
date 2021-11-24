@@ -86,7 +86,7 @@ public class LoginController {
      * @param reqVO 注册信息
      * @return 成功信息 或 异常虚拟
      */
-    @PutMapping("/signup")
+    @PostMapping("/signup")
     public Result<?> signup(@Token String token, @CurrentUser LoginUser loginUser, @RequestBody @Valid UserUpdateReqVO reqVO) {
         // 两步走
         userService.updateUser(reqVO.setId(loginUser.getId()));
