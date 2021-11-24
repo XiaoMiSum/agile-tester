@@ -1,0 +1,16 @@
+server:
+  port: 48080
+
+spring:
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/agile-tester?useSSL=false&allowPublicKeyRetrieval=true&useUnicode=true&characterEncoding=UTF-8
+    username: root
+    password: 123456qq
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+migoo:
+  security:
+    token-header: agile-tester
+    token-secret: 17c553e34228909b1f8cef6d1de0b53d
+    token-timeout: 1d
+    session-timeout: 30m
