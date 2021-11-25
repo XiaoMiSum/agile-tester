@@ -39,7 +39,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserRespVO extends UserBaseVO {
-    private Long id;
     
+    private Long id;
+
     private String email;
+
+    private String loginName;
+
+    private Boolean enabled;
 }

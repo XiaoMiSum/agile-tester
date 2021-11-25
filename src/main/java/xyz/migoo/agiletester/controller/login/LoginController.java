@@ -40,6 +40,7 @@ import xyz.migoo.framework.security.core.annotations.Token;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
 
 /**
  * @author xiaomi
@@ -75,7 +76,7 @@ public class LoginController {
      * @return 成功信息 或 异常虚拟
      */
     @PutMapping("/signup-check")
-    public Result<?> signupCheck(String email) {
+    public Result<?> signupCheck(@NotEmpty(message = "邮箱地址不能为空") String email) {
         String token = loginAuthService.signupCheck(email, ServletUtils.getClientIP(), ServletUtils.getUserAgent());
         return Result.getSuccessful(AuthLoginRspVO.builder().token(token).build());
     }
@@ -110,5 +111,15 @@ public class LoginController {
     @GetMapping("/captcha")
     public Result<?> getCaptcha() {
         return Result.getSuccessful(captchaAuthService.getCaptchaImage());
+    }
+
+    /**
+     * 获取当前登录用户信息
+     *
+     * @return 登录用户信息
+     */
+    @GetMapping("/user-info")
+    public Result<?> getCaptcha(@CurrentUser LoginUser user) {
+        return Result.getSuccessful(user);
     }
 }

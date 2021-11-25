@@ -111,7 +111,7 @@ public class UserServiceImpl implements UserService {
         // 校验正确性
         UserDO user = this.verify(reqVO.getId());
         // 更新用户
-        user.setEnabled(reqVO.getEnable());
+        user.setEnabled(reqVO.getEnabled());
         userMapper.updateById(user);
     }
 

@@ -50,7 +50,7 @@ public class UserPageReqVO extends PageParam {
 
     private String phone;
 
-    private Boolean enable;
+    private Boolean enabled;
 
     private Long teamId;
 

@@ -31,10 +31,13 @@ import xyz.migoo.agiletester.controller.team.vo.TeamCreateReqVO;
 import xyz.migoo.agiletester.controller.team.vo.TeamUpdateReqVO;
 import xyz.migoo.agiletester.convert.team.TeamConvert;
 import xyz.migoo.agiletester.service.team.TeamService;
+import xyz.migoo.framework.common.core.KeyValue;
 import xyz.migoo.framework.common.pojo.Result;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author xiaomi
@@ -92,6 +95,18 @@ public class TeamController {
     @GetMapping
     public Result<?> getTeamList() {
         return Result.getSuccessful(TeamConvert.INSTANCE.convert(teamService.getTeamList()));
+    }
+
+    /**
+     * 获取简单的团队列表信息
+     *
+     * @return 结果信息
+     */
+    @GetMapping("/options")
+    public Result<?> getTeamOptions() {
+        List<KeyValue<Long, String>> options = new ArrayList<>();
+        teamService.getTeamList().forEach(team -> options.add(new KeyValue<>(team.getId(), team.getName())));
+        return Result.getSuccessful(options);
     }
 
 }

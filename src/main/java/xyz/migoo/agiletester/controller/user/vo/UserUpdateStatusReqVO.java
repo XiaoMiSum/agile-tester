@@ -46,5 +46,5 @@ public class UserUpdateStatusReqVO {
     private Long id;
 
     @NotNull(message = "状态不能为空")
-    private Boolean enable;
+    private Boolean enabled;
 }

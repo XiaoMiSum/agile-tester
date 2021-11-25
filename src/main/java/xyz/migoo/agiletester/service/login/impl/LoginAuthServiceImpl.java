@@ -108,8 +108,9 @@ public class LoginAuthServiceImpl implements LoginAuthService {
     public void refreshLoginUser(String token, UserUpdateReqVO reqVO) {
         LoginUser loginUser = userSessionAuthService.getLoginUser(token);
         loginUser.setName(reqVO.getName())
-                .setPhone(reqVO.getPhone());
-        this.refreshLoginUserCache(token, loginUser);
+                .setPhone(reqVO.getPhone())
+                .setTeamId(reqVO.getTeamId());
+        userSessionAuthService.refreshUserSession(token, loginUser);
     }
 
     @Override

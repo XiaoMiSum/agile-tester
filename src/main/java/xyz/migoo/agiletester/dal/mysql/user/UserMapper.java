@@ -73,7 +73,7 @@ public interface UserMapper extends BaseMapperX<UserDO> {
         return selectPage(reqVO, new QueryWrapperX<UserDO>()
                 .likeIfPresent("name", reqVO.getName())
                 .likeIfPresent("phone", reqVO.getPhone())
-                .eqIfPresent("enable", reqVO.getEnable())
+                .eqIfPresent("enabled", reqVO.getEnabled())
                 .betweenIfPresent("create_time", reqVO.getBeginTime(), reqVO.getEndTime())
                 .eqIfPresent("team_id", reqVO.getTeamId()));
     }
