@@ -104,4 +104,11 @@ public interface UserService {
      * @return 用户列表
      */
     PageResult<UserDO> getPageUsers(UserPageReqVO reqVO);
+
+    /**
+     * 重置用户密码接口
+     *
+     * @param userId 用户id
+     */
+    void resetPassword(Long userId);
 }

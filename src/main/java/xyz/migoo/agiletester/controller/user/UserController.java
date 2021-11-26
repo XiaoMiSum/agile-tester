@@ -121,5 +121,17 @@ public class UserController {
         return Result.getSuccessful();
     }
 
+    /**
+     * 重置用户密码接口
+     *
+     * @param userId 用户编号
+     * @return 更新结果
+     */
+    @PostMapping("/{userId}")
+    public Result<?> resetPassword(@NotNull(message = "用户编号不能为空") @PathVariable("userId") Long userId) {
+        userService.resetPassword(userId);
+        return Result.getSuccessful();
+    }
+
 
 }

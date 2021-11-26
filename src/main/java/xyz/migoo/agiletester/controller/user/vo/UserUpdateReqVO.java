@@ -37,9 +37,13 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserUpdateReqVO extends UserBaseVO {
-
-    private String email;
     
     private Long id;
+
+    private String avatar;
+
+    private String email;
+
+    private String password;
 
 }

@@ -39,8 +39,12 @@ import javax.validation.constraints.NotEmpty;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserCreateReqVO extends UserBaseVO {
+    
+    private String avatar;
 
     @NotEmpty(message = "邮箱地址不能为空")
     private String email;
+
+    private String password;
 
 }

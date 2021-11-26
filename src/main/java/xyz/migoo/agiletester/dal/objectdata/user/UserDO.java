@@ -80,4 +80,8 @@ public class UserDO extends BaseDO {
      */
     private Long teamId;
 
+    /**
+     * 备注信息
+     */
+    private String memo;
 }

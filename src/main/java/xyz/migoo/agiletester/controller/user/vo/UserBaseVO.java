@@ -45,10 +45,8 @@ public class UserBaseVO {
 
     private String phone;
 
-    private String avatar;
-
     private Long teamId;
-    
-    private String password;
+
+    private String memo;
 
 }

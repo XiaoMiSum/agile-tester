@@ -75,7 +75,7 @@ public class UserServiceImpl implements UserService {
         String password = StrUtil.isBlank(user.getPassword()) ? RandomUtil.randomString(10) : user.getPassword();
         user.setPassword(passwordEncoder.encode(password));
         userMapper.insert(user);
-        // todo 发送邮件
+        this.sendEmail(user.getName(), password, user.getEmail());
     }
 
     @Override
@@ -95,8 +95,8 @@ public class UserServiceImpl implements UserService {
         this.verify(reqVO.getId());
         // 更新用户
         UserDO user = UserConvert.INSTANCE.convert(reqVO);
-        if (StrUtil.isNotBlank(user.getPassword())) {
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
+        if (StrUtil.isNotBlank(reqVO.getPassword())) {
+            user.setPassword(passwordEncoder.encode(reqVO.getPassword()));
         }
         userMapper.updateById(user);
     }
@@ -139,6 +139,16 @@ public class UserServiceImpl implements UserService {
         return userMapper.selectPage(reqVO);
     }
 
+    @Override
+    public void resetPassword(Long userId) {
+        // 校验正确性
+        UserDO user = this.verify(userId);
+        String password = RandomUtil.randomString(10);
+        user.setPassword(passwordEncoder.encode(password));
+        userMapper.updateById(user);
+        this.sendEmail(user.getName(), password, user.getEmail());
+    }
+
     private void verify(String loginName) {
         if (this.getUserByLoginName(loginName) != null) {
             throw ServiceExceptionUtil.get(USER_IS_EXISTS);
@@ -151,5 +161,9 @@ public class UserServiceImpl implements UserService {
             throw ServiceExceptionUtil.get(USER_NOT_EXISTS);
         }
         return user;
+    }
+
+    private void sendEmail(String name, String password, String email) {
+        // TODO: 2021-11-26 邮件发送新密码
     }
 }
