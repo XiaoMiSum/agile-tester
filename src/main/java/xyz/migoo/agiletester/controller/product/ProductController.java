@@ -73,6 +73,12 @@ public class ProductController {
         return Result.getSuccessful(result);
     }
 
+    @PostMapping("/status")
+    public Result<?> updateProductStatus(@Valid @RequestBody ProductUpdateStatusReqVO reqVo) {
+        productService.updateProductStatus(reqVo);
+        return Result.getSuccessful();
+    }
+
     @GetMapping("/member")
     public Result<PageResult<?>> getMembers(@Valid @RequestBody ProductMemberPageReqVo reqVo) {
         PageResult<ProductMemberRespVO> result = ProductConvert.INSTANCE.convert1(productService.getMembers(reqVo));

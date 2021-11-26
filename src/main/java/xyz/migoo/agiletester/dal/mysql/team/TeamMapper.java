@@ -25,12 +25,13 @@
 
 package xyz.migoo.agiletester.dal.mysql.team;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.apache.ibatis.annotations.Mapper;
 import xyz.migoo.agiletester.dal.objectdata.team.TeamDO;
 import xyz.migoo.framework.mybatis.core.BaseMapperX;
+import xyz.migoo.framework.mybatis.core.QueryWrapperX;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * @author xiaomi
@@ -44,10 +45,11 @@ public interface TeamMapper extends BaseMapperX<TeamDO> {
      * 通过团队名称查找团队信息
      *
      * @param name 团队名称
+     * @param pid  上级团队id
      * @return 团队表信息
      */
-    default TeamDO selectByName(String name) {
-        return selectOne(new QueryWrapper<TeamDO>().eq("name", name));
+    default TeamDO selectByName(String name, Long pid) {
+        return selectOne(new QueryWrapperX<TeamDO>().eq("name", name).eq("pid", pid));
     }
 
     /**
@@ -61,4 +63,7 @@ public interface TeamMapper extends BaseMapperX<TeamDO> {
         return deleteById(new TeamDO().setId((Long) id));
     }
 
+    default List<TeamDO> selectList(String name) {
+        return selectList(new QueryWrapperX<TeamDO>().likeIfPresent("name", name));
+    }
 }

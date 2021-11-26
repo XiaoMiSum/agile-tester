@@ -53,7 +53,7 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     public void createTeam(TeamCreateReqVO reqVO) {
-        this.verify(reqVO.getName());
+        this.verify(reqVO.getName(), reqVO.getPid());
         TeamDO team = TeamConvert.INSTANCE.convert(reqVO);
         teamMapper.insert(team);
     }
@@ -71,12 +71,12 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
-    public List<TeamDO> getTeamList() {
-        return teamMapper.selectList();
+    public List<TeamDO> getTeamList(String name) {
+        return teamMapper.selectList(name);
     }
 
-    private void verify(String name) {
-        if (Objects.nonNull(teamMapper.selectByName(name))) {
+    private void verify(String name, Long pid) {
+        if (Objects.nonNull(teamMapper.selectByName(name, Objects.isNull(pid) ? 0 : pid))) {
             throw ServiceExceptionUtil.get(TEAM_IS_EXISTS);
         }
     }

@@ -86,4 +86,11 @@ public interface ProductService {
      * @param id 数据id
      */
     void deleteMembers(Long id);
+
+    /**
+     * 修改产品归档状态
+     *
+     * @param reqVo 归档产品信息
+     */
+    void updateProductStatus(ProductUpdateStatusReqVO reqVo);
 }

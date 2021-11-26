@@ -61,7 +61,8 @@ public interface TeamService {
     /**
      * 获取团队列表
      *
+     * @param name 团队名称
      * @return 团队列表
      */
-    List<TeamDO> getTeamList();
+    List<TeamDO> getTeamList(String name);
 }

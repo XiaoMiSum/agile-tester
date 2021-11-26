@@ -81,4 +81,13 @@ public interface ProductConvert {
      * @return 产品成员展示信息
      */
     PageResult<ProductMemberRespVO> convert1(PageResult<ProductMemberDO> products);
+
+
+    /**
+     * ProductUpdateStatusReqVO 转换为 ProductDO
+     *
+     * @param reqVO 产品归档信息
+     * @return 产品表信息
+     */
+    ProductDO convert(ProductUpdateStatusReqVO reqVO);
 }

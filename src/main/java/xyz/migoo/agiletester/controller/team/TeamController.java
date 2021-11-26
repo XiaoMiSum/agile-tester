@@ -87,10 +87,11 @@ public class TeamController {
     /**
      * 获取团队列表接口
      *
+     * @param name 团队名称
      * @return 结果信息
      */
     @GetMapping
-    public Result<?> getTeamList() {
-        return Result.getSuccessful(TeamConvert.INSTANCE.convert(teamService.getTeamList()));
+    public Result<?> getTeamList(String name) {
+        return Result.getSuccessful(TeamConvert.INSTANCE.convert(teamService.getTeamList(name)));
     }
 }

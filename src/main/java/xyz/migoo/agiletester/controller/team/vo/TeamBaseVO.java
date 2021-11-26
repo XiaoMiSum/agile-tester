@@ -40,8 +40,7 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TeamBaseVO {
-
-    @NotNull(message = "上级团队不能为空")
+    
     private Long pid;
 
     @NotNull(message = "团队名称不能为空")
@@ -49,5 +48,5 @@ public class TeamBaseVO {
     private String name;
 
     private String memo;
-    
+
 }

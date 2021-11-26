@@ -94,6 +94,13 @@ public class ProductServiceImpl implements ProductService {
         memberMapper.deleteById(id);
     }
 
+    @Override
+    public void updateProductStatus(ProductUpdateStatusReqVO reqVo) {
+        this.verify(reqVo.getId());
+        ProductDO product = ProductConvert.INSTANCE.convert(reqVo);
+        productMapper.updateById(product);
+    }
+
     private void verify(String name) {
         if (Objects.nonNull(productMapper.selectByName(name))) {
             throw ServiceExceptionUtil.get(PRODUCT_IS_EXISTS);

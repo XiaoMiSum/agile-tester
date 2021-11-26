@@ -29,7 +29,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import xyz.migoo.agiletester.controller.team.vo.TeamBaseVO;
 
 /**
  * @author xiaomi
@@ -39,7 +38,9 @@ import xyz.migoo.agiletester.controller.team.vo.TeamBaseVO;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductRespVO extends TeamBaseVO {
+public class ProductRespVO extends ProductBaseVO {
 
     private Long id;
+
+    private Boolean enabled;
 }
