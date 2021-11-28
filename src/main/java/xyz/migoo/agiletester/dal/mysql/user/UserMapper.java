@@ -27,7 +27,7 @@ package xyz.migoo.agiletester.dal.mysql.user;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.apache.ibatis.annotations.Mapper;
-import xyz.migoo.agiletester.controller.user.vo.UserPageReqVO;
+import xyz.migoo.agiletester.controller.admin.user.vo.UserPageReqVO;
 import xyz.migoo.agiletester.dal.objectdata.user.UserDO;
 import xyz.migoo.framework.common.pojo.PageResult;
 import xyz.migoo.framework.mybatis.core.BaseMapperX;

@@ -60,4 +60,9 @@ public interface ErrorCodeConstants {
 
     ErrorCode PRODUCT_IS_EXISTS = new ErrorCode(1005000000, "操作失败，产品名称已存在");
     ErrorCode PRODUCT_NOT_EXISTS = new ErrorCode(1005000001, "操作失败，操作产品不存在");
+
+    // ========== Testcase 模块 1006000000 ==========
+
+    ErrorCode TESTCASE_IS_EXISTS = new ErrorCode(1006000000, "操作失败，该Suite已存在测试用例");
+    ErrorCode TESTCASE_NOT_EXISTS = new ErrorCode(1006000001, "操作失败，该Suite不存在可用测试用例");
 }

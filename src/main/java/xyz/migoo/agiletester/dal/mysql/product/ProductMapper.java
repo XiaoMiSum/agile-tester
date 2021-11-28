@@ -27,7 +27,7 @@ package xyz.migoo.agiletester.dal.mysql.product;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.apache.ibatis.annotations.Mapper;
-import xyz.migoo.agiletester.controller.product.vo.ProductPageReqVo;
+import xyz.migoo.agiletester.controller.admin.product.vo.ProductPageReqVo;
 import xyz.migoo.agiletester.dal.objectdata.product.ProductDO;
 import xyz.migoo.framework.common.pojo.PageResult;
 import xyz.migoo.framework.mybatis.core.BaseMapperX;

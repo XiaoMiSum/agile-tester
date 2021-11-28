@@ -26,7 +26,7 @@
 package xyz.migoo.agiletester.service.login;
 
 import xyz.migoo.agiletester.controller.login.vo.AuthLoginReqVO;
-import xyz.migoo.agiletester.controller.user.vo.UserUpdateReqVO;
+import xyz.migoo.agiletester.controller.admin.user.vo.UserUpdateReqVO;
 import xyz.migoo.framework.security.core.service.SecurityAuthFrameworkService;
 
 import javax.validation.Valid;

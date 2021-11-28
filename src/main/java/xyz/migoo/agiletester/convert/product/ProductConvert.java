@@ -27,7 +27,7 @@ package xyz.migoo.agiletester.convert.product;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
-import xyz.migoo.agiletester.controller.product.vo.*;
+import xyz.migoo.agiletester.controller.admin.product.vo.*;
 import xyz.migoo.agiletester.dal.objectdata.product.ProductDO;
 import xyz.migoo.agiletester.dal.objectdata.product.ProductMemberDO;
 import xyz.migoo.framework.common.pojo.PageResult;

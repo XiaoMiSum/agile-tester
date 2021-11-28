@@ -27,9 +27,9 @@ package xyz.migoo.agiletester.convert.team;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
-import xyz.migoo.agiletester.controller.team.vo.TeamCreateReqVO;
-import xyz.migoo.agiletester.controller.team.vo.TeamRespVO;
-import xyz.migoo.agiletester.controller.team.vo.TeamUpdateReqVO;
+import xyz.migoo.agiletester.controller.admin.team.vo.TeamCreateReqVO;
+import xyz.migoo.agiletester.controller.admin.team.vo.TeamRespVO;
+import xyz.migoo.agiletester.controller.admin.team.vo.TeamUpdateReqVO;
 import xyz.migoo.agiletester.dal.objectdata.team.TeamDO;
 
 import java.util.List;
@@ -41,7 +41,6 @@ import java.util.Objects;
  */
 @Mapper
 public interface TeamConvert {
-
 
     TeamConvert INSTANCE = Mappers.getMapper(TeamConvert.class);
 

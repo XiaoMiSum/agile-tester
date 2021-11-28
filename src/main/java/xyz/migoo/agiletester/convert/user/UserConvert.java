@@ -27,9 +27,9 @@ package xyz.migoo.agiletester.convert.user;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
-import xyz.migoo.agiletester.controller.user.vo.UserCreateReqVO;
-import xyz.migoo.agiletester.controller.user.vo.UserRespVO;
-import xyz.migoo.agiletester.controller.user.vo.UserUpdateReqVO;
+import xyz.migoo.agiletester.controller.admin.user.vo.UserCreateReqVO;
+import xyz.migoo.agiletester.controller.admin.user.vo.UserRespVO;
+import xyz.migoo.agiletester.controller.admin.user.vo.UserUpdateReqVO;
 import xyz.migoo.agiletester.dal.objectdata.user.UserDO;
 import xyz.migoo.framework.common.pojo.PageResult;
 
