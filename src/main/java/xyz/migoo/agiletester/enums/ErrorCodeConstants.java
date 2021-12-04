@@ -50,6 +50,7 @@ public interface ErrorCodeConstants {
     ErrorCode USER_NOT_EXISTS = new ErrorCode(1003000001, "操作失败，操作用户不存在");
     ErrorCode USER_PASSWORD_CONFIRM_UNCONFORMITY = new ErrorCode(1003000002, "操作失败，新密码与确认密码不一致");
     ErrorCode USER_ORIGINAL_PASSWORD_UNCONFORMITY = new ErrorCode(1003000003, "操作失败，原密码错误");
+    ErrorCode USER_IS_DISABLED = new ErrorCode(1003000004, "登录失败，用户已停用");
 
     // ========== TEAM 模块 1004000000 ==========
 

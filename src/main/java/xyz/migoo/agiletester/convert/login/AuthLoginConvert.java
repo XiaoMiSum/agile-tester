@@ -25,6 +25,7 @@
 
 package xyz.migoo.agiletester.convert.login;
 
+import cn.hutool.json.JSONObject;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
@@ -50,7 +51,21 @@ public interface AuthLoginConvert {
     @Mapping(source = "updateTime", target = "updateTime", ignore = true)
     LoginUser convert0(UserDO bean);
 
+    /**
+     * UserDO 转换为 LoginUser
+     *
+     * @param bean 用户表信息
+     * @return 登录用户信息
+     */
     default LoginUser convert(UserDO bean) {
-        return convert0(bean).setUsername(bean.getLoginName());
+        JSONObject extra = new JSONObject()
+                .putOpt("name", bean.getName())
+                .putOpt("avatar", bean.getAvatar())
+                .putOpt("memo", bean.getMemo())
+                .putOpt("email", bean.getEmail())
+                .putOpt("phone", bean.getPhone())
+                .putOpt("lastActivity", bean.getLastActivity())
+                .putOpt("teamId", bean.getTeamId());
+        return convert0(bean).setUsername(bean.getLoginName()).setExtra(extra);
     }
 }

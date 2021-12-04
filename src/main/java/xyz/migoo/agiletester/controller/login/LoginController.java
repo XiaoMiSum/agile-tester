@@ -34,6 +34,7 @@ import xyz.migoo.agiletester.service.admin.user.UserService;
 import xyz.migoo.framework.captcha.core.CaptchaAuthService;
 import xyz.migoo.framework.common.pojo.Result;
 import xyz.migoo.framework.common.util.servlet.ServletUtils;
+import xyz.migoo.framework.common.validation.Email;
 import xyz.migoo.framework.security.core.LoginUser;
 import xyz.migoo.framework.security.core.annotations.CurrentUser;
 import xyz.migoo.framework.security.core.annotations.Token;
@@ -76,7 +77,7 @@ public class LoginController {
      * @return 成功信息 或 异常虚拟
      */
     @PutMapping("/signup-check")
-    public Result<?> signupCheck(@NotEmpty(message = "邮箱地址不能为空") String email) {
+    public Result<?> signupCheck(@NotEmpty(message = "邮箱地址不能为空") @Email() String email) {
         String token = loginAuthService.signupCheck(email, ServletUtils.getClientIP(), ServletUtils.getUserAgent());
         return Result.getSuccessful(AuthLoginRspVO.builder().token(token).build());
     }

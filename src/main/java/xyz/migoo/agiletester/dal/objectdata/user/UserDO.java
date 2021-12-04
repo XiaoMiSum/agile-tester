@@ -84,4 +84,6 @@ public class UserDO extends BaseDO {
      * 备注信息
      */
     private String memo;
+
+    private Long lastActivity;
 }

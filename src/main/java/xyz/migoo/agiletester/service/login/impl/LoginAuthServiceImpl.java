@@ -25,6 +25,7 @@
 
 package xyz.migoo.agiletester.service.login.impl;
 
+import cn.hutool.json.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -52,6 +53,7 @@ import javax.annotation.Resource;
 import java.util.Objects;
 
 import static xyz.migoo.agiletester.enums.ErrorCodeConstants.*;
+import static xyz.migoo.framework.common.enums.NumberConstants.N_3;
 
 /**
  * @author xiaomi
@@ -75,8 +77,11 @@ public class LoginAuthServiceImpl implements LoginAuthService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         // 获取 username 对应的 SysUserDO
         UserDO user = userService.getUserByLoginName(username);
-        if (user == null) {
+        if (user == null ) {
             throw new UsernameNotFoundException(username);
+        }
+        if (!user.getEnabled()) {
+            throw ServiceExceptionUtil.get(USER_IS_DISABLED);
         }
         // 创建 LoginUser 对象
         return AuthLoginConvert.INSTANCE.convert(user);
@@ -100,16 +105,20 @@ public class LoginAuthServiceImpl implements LoginAuthService {
             throw ServiceExceptionUtil.get(USER_IS_EXISTS);
         }
         Long userId = userService.createUser(username, email);
-        LoginUser loginUser = new LoginUser().setId(userId).setEmail(email).setLoginName(username);
+        LoginUser loginUser = new LoginUser()
+                .setId(userId)
+                .setLoginName(username)
+                .setExtra(new JSONObject().putOpt("email", email));
         return userSessionAuthService.createUserSession(loginUser, userIp, userAgent);
     }
 
     @Override
     public void refreshLoginUser(String token, UserUpdateReqVO reqVO) {
         LoginUser loginUser = userSessionAuthService.getLoginUser(token);
-        loginUser.setName(reqVO.getName())
-                .setPhone(reqVO.getPhone())
-                .setTeamId(reqVO.getTeamId());
+        loginUser.getExtra()
+                .putOpt("name", reqVO.getName())
+                .putOpt("phone", reqVO.getPhone())
+                .putOpt("teamId", reqVO.getTeamId());
         userSessionAuthService.refreshUserSession(token, loginUser);
     }
 
@@ -165,7 +174,7 @@ public class LoginAuthServiceImpl implements LoginAuthService {
 
     private void refreshLoginUserCache(String token, LoginUser loginUser) {
         // 每 1/3 的 Session 超时时间，刷新 LoginUser 缓存
-        if (System.currentTimeMillis() - loginUser.getUpdateTime().getTime() > userSessionAuthService.getSessionTimeoutMillis() / 3) {
+        if (System.currentTimeMillis() - loginUser.getUpdateTime().getTime() > userSessionAuthService.getSessionTimeoutMillis() / N_3) {
             // 重新加载 SysUserDO 信息
             UserDO user = userService.getUserById(loginUser.getId());
             if (user == null || !user.getEnabled()) {
