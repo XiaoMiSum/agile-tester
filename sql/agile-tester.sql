@@ -11,7 +11,7 @@
  Target Server Version : 80025
  File Encoding         : 65001
 
- Date: 23/11/2021 21:38:30
+ Date: 04/12/2021 13:13:46
 */
 
 SET NAMES utf8mb4;
@@ -23,22 +23,43 @@ SET FOREIGN_KEY_CHECKS = 0;
 DROP TABLE IF EXISTS `product`;
 CREATE TABLE `product` (
   `id` bigint NOT NULL AUTO_INCREMENT,
-  `name` varchar(64) NOT NULL COMMENT '产品名称',
+  `name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '产品名称',
   `team_id` bigint NOT NULL COMMENT '所属团队id',
-  `memo` varchar(1024) DEFAULT NULL COMMENT '产品描述信息',
+  `memo` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '产品描述信息',
   `enabled` tinyint(1) NOT NULL DEFAULT '1' COMMENT '启用标识，1：已启用，0：未启用',
   `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标识，1：已删除，0：未删除',
   `creator_id` bigint DEFAULT NULL,
-  `creator_name` varchar(512) DEFAULT NULL,
+  `creator_name` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `create_time` datetime DEFAULT NULL,
   `update_time` datetime DEFAULT NULL,
   `updater_id` bigint DEFAULT NULL,
-  `updater_name` varchar(512) DEFAULT NULL,
+  `updater_name` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `IDU_product_name` (`name`),
   KEY `IDX_product_team_id` (`team_id`),
   KEY `IDX_product_creator_id` (`creator_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='产品信息表';
+
+-- ----------------------------
+-- Table structure for product_member
+-- ----------------------------
+DROP TABLE IF EXISTS `product_member`;
+CREATE TABLE `product_member` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `product_id` bigint NOT NULL COMMENT '产品\\项目id',
+  `user_id` bigint NOT NULL COMMENT '用户编号',
+  `username` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '用户姓名',
+  `role` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '角色：OWNER、EDITOR、READ_ONLY',
+  `enabled` tinyint(1) DEFAULT '1' COMMENT '冗余字段',
+  `deleted` tinyint(1) DEFAULT '0',
+  `creator_id` bigint DEFAULT NULL,
+  `creator_name` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
+  `updater_id` bigint DEFAULT NULL,
+  `updater_name` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='产品成员表';
 
 -- ----------------------------
 -- Table structure for team
@@ -47,18 +68,18 @@ DROP TABLE IF EXISTS `team`;
 CREATE TABLE `team` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `pid` bigint NOT NULL DEFAULT '0' COMMENT '上级团队id',
-  `name` varchar(32) NOT NULL COMMENT '团队名称',
-  `memo` varchar(512) DEFAULT NULL COMMENT '团队描述',
+  `name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '团队名称',
+  `memo` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '团队描述',
   `enabled` tinyint(1) NOT NULL DEFAULT '1' COMMENT '启用标识，1：已启用，0：未启用',
   `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标识，1：已删除，0：未删除',
   `creator_id` bigint DEFAULT NULL,
-  `creator_name` varchar(4000) DEFAULT NULL,
+  `creator_name` varchar(4000) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `create_time` datetime DEFAULT NULL,
   `update_time` datetime DEFAULT NULL,
   `updater_id` bigint DEFAULT NULL,
-  `updater_name` varchar(512) DEFAULT NULL,
+  `updater_name` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='团队信息表';
 
 -- ----------------------------
 -- Table structure for test_plan
@@ -67,9 +88,9 @@ DROP TABLE IF EXISTS `test_plan`;
 CREATE TABLE `test_plan` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `product_id` bigint NOT NULL COMMENT '所属产品id',
-  `title` varchar(64) NOT NULL COMMENT '测试计划标题',
-  `env` varchar(64) NOT NULL COMMENT '执行环境',
-  `memo` varchar(512) DEFAULT NULL COMMENT '测试计划备注信息',
+  `title` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '测试计划标题',
+  `env` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '执行环境',
+  `memo` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '测试计划备注信息',
   `executor_ids` json NOT NULL COMMENT '执行者id列表，如：[userId1,userId2]',
   `executors` json NOT NULL COMMENT '执行者名称列表，如：["张三","李四"]',
   `total_count` int NOT NULL DEFAULT '0' COMMENT '待执行的用例总数',
@@ -89,15 +110,15 @@ CREATE TABLE `test_plan` (
   `enabled` tinyint(1) NOT NULL DEFAULT '1' COMMENT '启用标识，1：已启用，0：未启用',
   `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标识，1：已删除，0：未删除',
   `creator_id` bigint DEFAULT NULL,
-  `creator_name` varchar(512) DEFAULT NULL,
+  `creator_name` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `create_time` datetime DEFAULT NULL,
   `update_time` datetime DEFAULT NULL,
   `updater_id` bigint DEFAULT NULL,
-  `updater_name` varchar(512) DEFAULT NULL,
+  `updater_name` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `IDU_test_plan_title` (`title`),
   KEY `IDX_test_plan_creator_id` (`creator_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='测试计划表';
 
 -- ----------------------------
 -- Table structure for test_review
@@ -106,8 +127,8 @@ DROP TABLE IF EXISTS `test_review`;
 CREATE TABLE `test_review` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `product_id` bigint NOT NULL COMMENT '所属产品',
-  `title` varchar(64) NOT NULL COMMENT '测试评审标题',
-  `memo` varchar(512) DEFAULT NULL COMMENT '测试评审备注信息',
+  `title` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '测试评审标题',
+  `memo` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '测试评审备注信息',
   `reviewer_ids` json NOT NULL COMMENT '评审者id列表，如：[userId1,userId2]',
   `reviewers` json NOT NULL COMMENT '评审者名称列表，如：["张三","李四"]',
   `total_count` int NOT NULL DEFAULT '0' COMMENT '待评审的用例总数',
@@ -115,7 +136,7 @@ CREATE TABLE `test_review` (
   `success_count` int NOT NULL DEFAULT '0' COMMENT '评审通过的用例总数',
   `success_content` json NOT NULL COMMENT '测试通过的用例id列表，如：["case_1", "case_2"]',
   `failed_count` int NOT NULL COMMENT '评审失败的用例总数',
-  `failed_content` longtext NOT NULL COMMENT '测试失败的用例id列表，如：["case_1", "case_2"]',
+  `failed_content` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '测试失败的用例id列表，如：["case_1", "case_2"]',
   `expect_start_time` datetime NOT NULL COMMENT '预期开始时间',
   `expect_end_time` datetime NOT NULL COMMENT '预计结束时间',
   `actual_start_time` datetime DEFAULT NULL,
@@ -123,15 +144,15 @@ CREATE TABLE `test_review` (
   `enabled` tinyint(1) NOT NULL DEFAULT '1',
   `deleted` tinyint(1) NOT NULL DEFAULT '0',
   `creator_id` bigint DEFAULT NULL,
-  `creator_name` varchar(512) DEFAULT NULL,
+  `creator_name` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `create_time` datetime DEFAULT NULL,
   `update_time` datetime DEFAULT NULL,
   `updater_id` bigint DEFAULT NULL,
-  `updater_name` varchar(512) DEFAULT NULL,
+  `updater_name` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `IDU_test_review_title` (`title`),
   KEY `IDX_test_reiew_creator_idC8F8` (`creator_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='测试评审表';
 
 -- ----------------------------
 -- Table structure for testcase
@@ -139,24 +160,24 @@ CREATE TABLE `test_review` (
 DROP TABLE IF EXISTS `testcase`;
 CREATE TABLE `testcase` (
   `id` bigint NOT NULL AUTO_INCREMENT,
-  `title` varchar(64) NOT NULL COMMENT '用例集标题',
-  `suite_id` bigint NOT NULL COMMENT '所属集合id',
+  `type` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '用例类型：minder\\table',
+  `suite_id` varchar(64) COLLATE utf8mb4_general_ci NOT NULL COMMENT '所属集合id',
   `content` json NOT NULL COMMENT '思维导图json',
-  `memo` varchar(255) DEFAULT NULL COMMENT '用例集备注信息',
+  `memo` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '用例集备注信息',
   `extra` json DEFAULT NULL COMMENT '用例集扩展信息',
   `enabled` tinyint(1) NOT NULL DEFAULT '1' COMMENT '启用标识，1：已启用，0：未启用',
   `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标识，1：已删除，0：未删除',
   `creator_id` bigint DEFAULT NULL,
-  `creator_name` varchar(512) DEFAULT NULL,
+  `creator_name` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `create_time` datetime DEFAULT NULL,
   `update_time` datetime DEFAULT NULL,
   `updater_id` bigint DEFAULT NULL,
-  `updater_name` varchar(512) DEFAULT NULL,
+  `updater_name` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `IDU_testcase_title` (`title`),
+  UNIQUE KEY `IDU_testcase_title` (`type`),
   KEY `IDX_testcase_suite_id` (`suite_id`),
   KEY `IDX_testcase_creator_id` (`creator_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='测试用例表';
 
 -- ----------------------------
 -- Table structure for testsuite
@@ -169,14 +190,14 @@ CREATE TABLE `testsuite` (
   `enabled` tinyint(1) NOT NULL DEFAULT '1' COMMENT '启用标识，1：已启用，0：未启用',
   `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标识，1：已删除，0：未删除',
   `creator_id` bigint DEFAULT NULL,
-  `creator_name` varchar(512) DEFAULT NULL,
+  `creator_name` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `create_time` datetime DEFAULT NULL,
   `update_time` datetime DEFAULT NULL,
   `updater_id` bigint DEFAULT NULL,
-  `updater_name` varchar(512) DEFAULT NULL,
+  `updater_name` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_testsuite_creator_id` (`creator_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='测试集合表';
 
 -- ----------------------------
 -- Table structure for user
@@ -184,26 +205,28 @@ CREATE TABLE `testsuite` (
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
   `id` bigint NOT NULL AUTO_INCREMENT,
-  `login_name` varchar(64) NOT NULL COMMENT '登录名称',
-  `password` varchar(64) NOT NULL COMMENT '登录密码',
-  `name` varchar(64) NOT NULL COMMENT '用户姓名',
-  `avatar` varchar(255) DEFAULT NULL COMMENT '用户头像',
-  `email` varchar(255) DEFAULT NULL COMMENT '邮箱地址',
-  `phone` varchar(32) DEFAULT NULL COMMENT '手机号',
-  `team_id` bigint NOT NULL COMMENT '所属团队',
+  `login_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '登录名称',
+  `password` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '登录密码',
+  `name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '用户姓名',
+  `avatar` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '用户头像',
+  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '邮箱地址',
+  `phone` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '手机号',
+  `team_id` bigint DEFAULT NULL COMMENT '所属团队',
+  `last_activity` bigint DEFAULT NULL COMMENT '最后活动的产品',
+  `memo` varchar(512) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '备注信息',
   `enabled` tinyint(1) NOT NULL DEFAULT '1' COMMENT '启用标识，1：已启用，0：未启用',
   `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标识，1：已删除，0：未删除',
   `creator_id` bigint DEFAULT NULL,
-  `creator_name` varchar(512) DEFAULT NULL,
+  `creator_name` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `create_time` datetime DEFAULT NULL,
   `update_time` datetime DEFAULT NULL,
   `updater_id` bigint DEFAULT NULL,
-  `updater_name` varchar(512) DEFAULT NULL,
+  `updater_name` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `IDU_s_user_login_name` (`login_name`),
   UNIQUE KEY `IDU_s_user_phone` (`phone`),
   KEY `IDX_s_user_team_id` (`team_id`),
   KEY `IDX_s_user_creator_id` (`creator_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='用户信息表';
 
 SET FOREIGN_KEY_CHECKS = 1;
